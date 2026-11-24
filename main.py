@@ -17,6 +17,12 @@ def main() -> None:
     path = os.path.join(out_dir, "entry.txt")
     with open(path, "w", encoding="utf-8") as f:
         f.write(LINE)
+    # Read back and verify: the graded file must be exactly the line,
+    # byte for byte — a short or padded write would score as a different entry.
+    with open(path, "r", encoding="utf-8") as f:
+        written = f.read()
+    if written != LINE:
+        raise SystemExit(f"entry.txt mismatch: wrote {len(written)} chars, expected {len(LINE)}")
 
 
 if __name__ == "__main__":
